@@ -15,6 +15,8 @@ public class Main {
                 PageReplacementSimulator.simulateLRU(exampleSeq, exampleFrames));
         System.out.printf("optimo   : %d fallos%n",
                 PageReplacementSimulator.simulateOptimal(exampleSeq, exampleFrames));
+        System.out.printf("clock   : %d fallos%n",
+                PageReplacementSimulator.simulateClock(exampleSeq, exampleFrames));
 
         // Otra secuencia de prueba
         int[] seq2 = {1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5};

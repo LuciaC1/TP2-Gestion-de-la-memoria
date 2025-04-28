@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Deque;
@@ -108,6 +109,34 @@ public class PageReplacementSimulator {
      * @return cantidad de fallos de pagina
      */
     public static int simulateClock(int[] pages, int frameCount) {
-        throw new UnsupportedOperationException("Clock algorithm not implemented yet");
+        int errors = 0; boolean verif = true;
+        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue2 = new LinkedList<>();
+        for (int page: pages){
+            if (queue.contains(page)){
+                if (!queue2.contains(page) && queue2.size() < frameCount) {
+                    queue2.add(page);
+                }
+                continue;
+            }
+            if (queue.size() < frameCount){
+                queue.add(page);
+            } else {
+                for (int queu : queue) {
+                   if (!queue2.contains(queu)) {
+                       queue.remove(queu);
+                       queue.add(page);
+                       errors++;
+                       break;
+                   }
+                }
+                if (!queue.contains(page)) {
+                    for (int i = 0; i < frameCount; i++) {
+                        queue2.poll();
+                    }
+                }
+            }
+        }
+        return errors;
     }
 }
