@@ -1,5 +1,5 @@
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PageReplaceentSimulatorTest {
     // Secuencia ejemplo y cantidad de marcos
@@ -13,7 +13,7 @@ public class PageReplaceentSimulatorTest {
 
     @Test
     public void givenExampleSequence_FIFO() {
-        assertEquals("FIFO faults for example sequence",
+        assertEquals(
                 11,
                 PageReplacementSimulator.simulateFIFO(EXAMPLE_REF, EXAMPLE_FRAMES)
         );
@@ -21,7 +21,7 @@ public class PageReplaceentSimulatorTest {
 
     @Test
     public void givenExampleSequence_LRU() {
-        assertEquals("LRU faults for example sequence",
+        assertEquals(
                 10,
                 PageReplacementSimulator.simulateLRU(EXAMPLE_REF, EXAMPLE_FRAMES)
         );
@@ -29,7 +29,7 @@ public class PageReplaceentSimulatorTest {
 
     @Test
     public void givenExampleSequence_Optimal() {
-        assertEquals("Optimal faults for example sequence",
+        assertEquals(
                 6,
                 PageReplacementSimulator.simulateOptimal(EXAMPLE_REF, EXAMPLE_FRAMES)
         );

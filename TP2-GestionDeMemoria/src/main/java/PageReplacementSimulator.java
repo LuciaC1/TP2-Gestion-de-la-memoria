@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Deque;
 
 /**
  * Simulador de reemplazo de paginas. Cada metodo recibe el flujo de paginas
@@ -12,8 +15,21 @@ public class PageReplacementSimulator {
      * @return cantidad de fallos de pagina (solo al reemplazar)
      */
     public static int simulateFIFO(int[] pages, int frameCount) {
-        throw new UnsupportedOperationException("FIFO algorithm not implemented yet");
-
+        int errors = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        for (int page: pages){
+            if (queue.contains(page)){
+                continue;
+            }
+            if (queue.size() < frameCount){
+                queue.add(page);
+            }else{
+                queue.poll();
+                queue.add(page);
+                errors++;
+            }
+        }
+        return errors;
     }
 
     /**
@@ -24,7 +40,24 @@ public class PageReplacementSimulator {
      * @return cantidad de fallos de pagina
      */
     public static int simulateLRU(int[] pages, int frameCount) {
-        throw new UnsupportedOperationException("LRU algorithm not implemented yet");
+        int errores = 0;
+        Queue<Integer> queue = new LinkedList<>();
+
+        for (int page : pages) {
+            if (queue.contains(page)) {
+                queue.remove(page);
+                queue.add(page);
+            } else {
+                if (queue.size() < frameCount) {
+                    queue.add(page);
+                } else {
+                    queue.poll();
+                    queue.add(page);
+                    errores++;
+                }
+            }
+        }
+        return errores;
     }
 
     /**
@@ -35,7 +68,36 @@ public class PageReplacementSimulator {
      * @return cantidad de fallos de pagina
      */
     public static int simulateOptimal(int[] pages, int frameCount) {
-        throw new UnsupportedOperationException("Optimal algorithm not implemented yet");
+        int errores = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        for (int page : pages) {
+            if (queue.contains(page)) {
+                continue;
+            }
+            if (queue.size() < frameCount) {
+                queue.offer(page);
+            } else {
+                int contador = 0;
+                Deque<Integer> deque = new LinkedList<>();
+                for (int page2 : pages) {
+                    if (contador == 0) {
+                        page2 = page;
+                        contador++;
+                    } else {
+                        if (queue.contains(page2)) {
+                            if (deque.size() < frameCount && !deque.contains(page2)) {
+                                deque.add(page2);
+                            }
+                        }
+                    }
+                }
+                int ultimo = deque.getLast();
+                queue.remove(ultimo);
+                queue.add(page);
+                errores++;
+            }
+        }
+        return errores;
     }
 
     /**
