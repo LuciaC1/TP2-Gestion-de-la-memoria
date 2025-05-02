@@ -68,4 +68,40 @@ public class PageReplaceentSimulatorTest {
         assertEquals(2, PageReplacementSimulator.simulateLRU(seq, frames));
         assertEquals(2, PageReplacementSimulator.simulateOptimal(seq, frames));
     }
+
+    @Test
+    public void givenExampleSequence_Clock() {
+        assertEquals(
+                9,
+                PageReplacementSimulator.simulateClock(EXAMPLE_REF, EXAMPLE_FRAMES)
+        );
+    }
+
+    @Test
+    public void case1_NoReplacement_WhenFramesNotFullClock() {
+        int[] seq = {1, 2, 3};
+        int frames = 5; // mas marcos que referencias
+
+        // Ningun algoritmo debe contar fallos si aun hay marcos libres
+        assertEquals(0, PageReplacementSimulator.simulateClock(seq, frames));
+    }
+
+    @Test
+    public void case2_NoReplacement_RepeatingPatternClock() {
+        int[] seq = {1, 2, 1, 2, 1, 2};
+        int frames = 2;
+
+        // Patron repetitivo no debe generar ningun reemplazo
+        assertEquals(0, PageReplacementSimulator.simulateClock(seq, frames));
+
+    }
+
+    @Test
+    public void case3_Replacement_AllDistinctPagesClock() {
+        int[] seq = {1, 2, 3, 4, 5};
+        int frames = 3;
+
+        // Cada algoritmo deberia producir dos reemplazos
+        assertEquals(2, PageReplacementSimulator.simulateClock(seq, frames));
+    }
 }

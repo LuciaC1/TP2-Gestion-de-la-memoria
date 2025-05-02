@@ -122,18 +122,24 @@ public class PageReplacementSimulator {
             if (queue.size() < frameCount){
                 queue.add(page);
             } else {
-                for (int queu : queue) {
-                   if (!queue2.contains(queu)) {
-                       queue.remove(queu);
-                       queue.add(page);
-                       errors++;
-                       break;
-                   }
+                int aux = 0;
+                for (int i = 0; i < frameCount; i++) {
+                    if (!queue2.contains(queue.peek())) {
+                        queue.poll();
+                        queue.add(page);
+                        errors++;
+                        break;
+                    } else {
+                        queue2.remove(queue.peek());
+                        aux = queue.peek();
+                        queue.poll();
+                        queue.add(aux);
+                    }
                 }
                 if (!queue.contains(page)) {
-                    for (int i = 0; i < frameCount; i++) {
-                        queue2.poll();
-                    }
+                    queue.poll();
+                    queue.add(page);
+                    errors++;
                 }
             }
         }
